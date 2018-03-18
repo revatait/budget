@@ -1,0 +1,7 @@
+_id,name,parent
+210,salary,income
+240,other,income
+310,necessity,expense
+360,lifestyle,expense
+400,charity,expense
+100,savings,expense
