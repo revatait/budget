@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
+var mysql = require('mysql');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -15,19 +16,23 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// setup mysql
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'Lesjam3!!3sjus8tify',
+  database: 'budget'
+});
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(sassMiddleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: true, // true = .sass and false = .scss
-  sourceMap: true
-}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
+
 
 app.use('/', index);
 app.use('/users', users);
