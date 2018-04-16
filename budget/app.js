@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var sassMiddleware = require('node-sass-middleware');
 var mysql = require('mysql');
 
 var index = require('./routes/index');
@@ -24,6 +23,13 @@ var connection = mysql.createConnection({
   database: 'budget'
 });
 
+connection.connect()
+connection.query('SELECT * FROM cat LIMIT 10', function (err, rows, fields) {
+  if (err) {    throw err   };
+  console.log('The solution is: ', rows)
+})
+connection.end()
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
@@ -32,10 +38,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
-
-
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  next();
+})
 app.use('/', index);
 app.use('/users', users);
+
+// routes
+// app.route('/api/cat/:cat').get((req, res) => {
+//   res.send({
+//
+//   })
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

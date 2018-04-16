@@ -1,7 +1,25 @@
 doctype html
 html
   head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+
     title= title
+
     link(rel='stylesheet', href='/stylesheets/style.css')
+
   body
-    block content
+    div#container
+      div#header
+        h1.teal-text.text-darken-4= title
+      div#nav
+        ul#nav
+          li.teal.darken-1#config Enter Transactions
+          li.teal.darken-1#config Enter Balances
+          li.teal.darken-1#config Edit Budget + Goals
+          li.teal.darken-1#dashboard View Balance Sheet
+          li.teal.darken-1#dashboard View Profit + Loss
+      div#content
+        block content
