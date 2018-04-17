@@ -11,6 +11,7 @@
     "d3": "^5.0.0",
     "debug": "~2.6.9",
     "express": "~4.15.5",
+    "knex": "^0.14.6",
     "materialize-css": "^1.0.0-beta",
     "morgan": "~1.9.0",
     "mysql": "^2.15.0",

@@ -5,30 +5,31 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
-
+const store = require('./store');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // setup mysql
-var connection = mysql.createConnection({
+var pool = mysql.createPool({
+  connectionLimit: 10,
   host: 'localhost',
   user: 'root',
   password: 'Lesjam3!!3sjus8tify',
   database: 'budget'
 });
 
-connection.connect()
-connection.query('SELECT * FROM cat LIMIT 10', function (err, rows, fields) {
-  if (err) {    throw err   };
-  console.log('The solution is: ', rows)
-})
-connection.end()
+pool.getConnection(function(err, connection) {
+  connection.query('SELECT * FROM cat LIMIT 5', function (err, results, fields){
+    connection.release();
+    if (err) throw err;
+  });
+});
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -46,13 +47,6 @@ app.use(function (req, res, next) {
 })
 app.use('/', index);
 app.use('/users', users);
-
-// routes
-// app.route('/api/cat/:cat').get((req, res) => {
-//   res.send({
-//
-//   })
-// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
