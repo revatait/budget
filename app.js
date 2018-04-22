@@ -37,14 +37,14 @@ pool.getConnection(function(err, connection) {
 app.get('/categories', function (req, res) {
   var catList = [];
   pool.getConnection(function(err, connection) {
-    connection.query('SELECT * FROM cat', function(err, rows, fields) {
+    connection.query('SELECT * FROM cat ORDER BY parent_subclass', function(err, rows, fields) {
       if (err) {
         res.status(500).json({
           "status_code": 500,
           "status_message": "connection error in get method"
         });
       } else {
-        console.log('got somethin');
+        console.log('got somethin\'');
         for (var i = 0; i < rows.length; i++) {
           var category = {
             'category':rows[i].category,
@@ -53,7 +53,8 @@ app.get('/categories', function (req, res) {
           }
           catList.push(category);
         }
-        res.render('index', { 'catList': catList });
+        console.log(catList[1]);
+        res.render('categories', { 'catList': catList, 'title': 'Categories' });
       }
     });
     connection.release();
