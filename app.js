@@ -14,52 +14,6 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// setup mysql
-var pool = mysql.createPool({
-  connectionLimit: 10,
-  host: 'localhost',
-  user: 'root',
-  password: 'Lesjam3!!3sjus8tify',
-  database: 'budget'
-});
-
-
-pool.getConnection(function(err, connection) {
-  connection.query('SELECT * FROM cat LIMIT 5', function (err, rows){
-    console.log('Data received from database:\n');
-    console.log(rows);
-    connection.release();
-    if (err) throw err;
-  });
-});
-
-// http method: get
-app.get('/categories', function (req, res) {
-  var catList = [];
-  pool.getConnection(function(err, connection) {
-    connection.query('SELECT * FROM cat ORDER BY parent_subclass', function(err, rows, fields) {
-      if (err) {
-        res.status(500).json({
-          "status_code": 500,
-          "status_message": "connection error in get method"
-        });
-      } else {
-        console.log('got somethin\'');
-        for (var i = 0; i < rows.length; i++) {
-          var category = {
-            'category':rows[i].category,
-            'cat_id':rows[i].cat_id,
-            'parent_subclass':rows[i].parent_subclass
-          }
-          catList.push(category);
-        }
-        console.log(catList[1]);
-        res.render('categories', { 'catList': catList, 'title': 'Categories' });
-      }
-    });
-    connection.release();
-  });
-});
 
 
 // basics

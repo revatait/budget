@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "devstart": "nodemon ./bin/www",
+    "start" : "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

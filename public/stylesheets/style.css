@@ -18,14 +18,3 @@ div#nav {
   width: 25vw;
   margin-right: 15px;
 }
-
-ul#nav {
-  list-style-type: none;
-}
-
-#nav li {
-  padding: 3px;
-  margin: 3px;
-  height: 3rem;
-  background-color: red;
-}
