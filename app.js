@@ -6,13 +6,23 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 
+
 var index = require('./routes/index');
+var transactions = require('./routes/transactions');
 
 const env = 'development';
 const config = require('./knexfile')[env];
 const knex = require('knex')(config);
-
+var bookshelf = require('bookshelf')(knex);
 const app = express();
+
+var Transaction = bookshelf.Model.extend({
+  tableName: 'trans'
+});
+
+var Subcat = bookshelf.Model.extend({
+  tableName = 'cat'
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,7 +48,7 @@ app.use(function(req, res, next) {
 });
 
 // working with knex
-app.all('/categories/:category', (req, res) => {
+app.get('/categories/:category', (req, res) => {
   console.log(req.params.cat_id);
   knex('cat').where('category', req.params.category).then((results) => {
       res.json(results);
@@ -48,7 +58,14 @@ app.all('/categories/:category', (req, res) => {
     });
 });
 
-// posting new categories is currently broken
+knex.select('*').from('cat').then((values) => {
+  console.log(values);
+}).catch((err) => {
+  console.error(err);
+}).finally(() => {
+  knex.destroy();
+});
+
 app.post('/categories', (req, res) => {
     knex('cat').insert({
       parent_subclass: req.body.parent_subclass
@@ -63,7 +80,7 @@ app.delete('/categories/:category', ( req, res ) => {
   knex('cat').delete("id", req.params.category).delete().then(() => {
     res.json('Deleted!');
   })
-})
+});
 
 // error handler
 app.use(function(err, req, res, next) {

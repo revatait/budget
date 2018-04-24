@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "devstart": "nodemon ./bin/www",
-    "start" : "node ./bin/www",
+    "start": "node ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
+    "bookshelf": "^0.13.3",
     "cookie-parser": "~1.4.3",
     "d3": "^5.0.0",
     "debug": "~2.6.9",
