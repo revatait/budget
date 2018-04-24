@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var knex = require('../db/server');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -16,6 +15,8 @@ router.get('/categories', function (req, res, next) {
 router.get('/transactions', function (req, res, next) {
   res.render('transactions', {title: 'Transactions' });
 });
+
+
 
 
 /*
