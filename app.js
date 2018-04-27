@@ -7,14 +7,17 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var cors = require('cors');
-var knex = require('./db/knex');
+
+// knex config
+const env = 'development';
+const config = require('./knexfile')[env];
+const knex = require('knex')(config);
 
 // require routes
 var index = require('./routes/index');
 var categories = require('./routes/categories');
 
-
-
+// require controllers
 var categoryControllers = require('./controllers/categories.js');
 
 // master app object
@@ -40,20 +43,13 @@ app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/style
 app.use('/', index);
 app.use('/categories', categories);
 
-
-
-// Checking knex connection
-knex.select('*')
-  .from('cat')
-  .then((values) => {
-    console.log(values);
-  })
-  .catch((err) => {
-    console.error(err);
-  })
-  .finally(() => {
-    knex.destroy();
-});
+// testing knex -- getting "knex.raw is not a function"
+knex.raw('select 1+1 as result')
+  .then (console.log('good to go'))
+  .catch(err => {
+    console.log(err);
+    process.exit(1);
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

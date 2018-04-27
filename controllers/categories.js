@@ -1,9 +1,8 @@
 var knex = require('../db/knex');
 
 function getCategories(req, res) {
-  knex.select()
-  .from('cat')
-  .then( cats => res.send( cats.row ));
+  knex.select().table('cat')
+  .then( cat => res.send( cat.row ));
 };
 
 function getCategory(req, res) {
