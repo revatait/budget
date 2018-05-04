@@ -41,15 +41,18 @@ app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/style
 
 // use routes
 app.use('/', index);
-app.use('/categories', categories);
+app.get('/categories', categories);
 
-// testing knex -- getting "knex.raw is not a function"
-knex.raw('select 1+1 as result')
-  .then (console.log('good to go'))
-  .catch(err => {
-    console.log(err);
-    process.exit(1);
-})
+// testing knex connection
+// knex.select().table('cat')
+//   .then (console.log('good to go'))
+//   .then (rows => {
+//     console.log(rows[2]);
+//   })  
+//   .catch(err => {
+//     console.log(err);
+//     process.exit(1);
+//   });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,29 +1,27 @@
 var express = require('express');
 var router = express.Router();
+var knex = require('knex');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'A Personal Finance App' });
-});
-
-/* GET categories page. */
-router.get('/categories', function (req, res, next) {
-  res.render('categories', {title: 'Categories' });
+router.get('/', (req, res) => {
+  knex.select('*')
+  .from('cat')
+  .then (console.log('good to go'))
+  .then (rows => {
+    res.render('index', {
+      title: 'A Personal Finance App',
+      catList: rows
+    });
+  })  
+  .catch(err => {
+    console.log(err);
+    process.exit(1);
+  });
 });
 
 /* GET transactions page. */
 router.get('/transactions', function (req, res, next) {
   res.render('transactions', {title: 'Transactions' });
 });
-
-
-
-
-/*
-
-Routes needed:
-accounts, balances, classes, subclasses, categories, subcategories
-
-*/
 
 module.exports = router;

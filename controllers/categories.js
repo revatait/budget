@@ -1,16 +1,14 @@
-var knex = require('../db/knex');
-
-function getCategories(req, res) {
-  knex.select().table('cat')
+function getCategory(req, res) {
+  select().table('cat')
   .then( cat => res.send( cat.row ));
 };
 
-function getCategory(req, res) {
+function getCategories(req, res) {
   knex.select()
   .from('cat')
   .where('id', req.params.id)
   .then(() => {
-    knex.select()
+    select()
     .from('cat')
     .then( cats => res.send( cats.row ));
   });
@@ -25,7 +23,7 @@ function addCategory(req, res) {
     subcat: req.body.subcat
   })
   .then(() => {
-    knex.select()
+    select()
     .from('cat')
     .then( cats => res.send( cats.row ));
   })
@@ -41,7 +39,7 @@ function updateCategory(req, res) {
     subcat: req.body.subcat
   })
   .then(() => {
-    knex.select()
+    select()
     .from('cat')
     .then( cats => res.send( cats.row ));
   });
@@ -51,19 +49,19 @@ function deleteCategory(req, res) {
   knex('cat').where('id', req.params.id)
   .del()
   .then(() => {
-    knex.select()
+    select()
     .from('cat')
     .then( cats => res.send( cats.row ));
   });
 };
 
 module.exports = {
-  getCategories,
-  getCategory,
-  addCategory,
-  updateCategory,
-  deleteCategory
-};
+  getCategory : getCategory,
+  getCategories : getCategories,
+  addCategory : addCategory,
+  updateCategory : updateCategory,
+  deleteCategory : deleteCategory
+}
 
 // he mentioned a playlist dedicated to knex routing
 // https://www.youtube.com/watch?v=xtnT5tSTBVY&list=PL7sCSgsRZ-smZUBYMHByVhjO_XDPaX7QK&index=5
