@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var cors = require('cors');
+var bookshelf = require('bookshelf');
 
 // knex config
 const env = 'development';
@@ -15,10 +16,6 @@ const knex = require('knex')(config);
 
 // require routes
 var index = require('./routes/index');
-var categories = require('./routes/categories');
-
-// require controllers
-var categoryControllers = require('./controllers/categories.js');
 
 // master app object
 const app = express();
@@ -41,11 +38,9 @@ app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/style
 
 // use routes
 app.use('/', index);
-app.get('/categories', categories);
 
 // testing knex connection
 // knex.select().table('cat')
-//   .then (console.log('good to go'))
 //   .then (rows => {
 //     console.log(rows[2]);
 //   })  
