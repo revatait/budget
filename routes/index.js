@@ -1,11 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var knex = require('knex');
+var db = require('../db');
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.render('index', {title: 'A Personal Finance App' });
-});
+  db.getCats()
+    .then(cats => {
+      res.render('index', {cats: cats, title: 'A Personal Finance App'})
+    })
+    .catch(err => {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
 
 /* GET transactions page. */
 router.get('/transactions', function (req, res, next) {
@@ -18,63 +25,3 @@ router.get('/categories', function (req, res, next) {
 });
 
 module.exports = router;
-
-
-// old attempts at controllers + modularized routes, keeping it simple for now
-
-// function getCategory(req, res) {
-//   select().table('cat')
-//   .then( cat => res.send( cat.row ));
-// };
-
-// function getCategories(req, res) {
-//   knex.select()
-//   .from('cat')
-//   .where('id', req.params.id)
-//   .then(() => {
-//     select()
-//     .from('cat')
-//     .then( cats => res.send( cats.row ));
-//   });
-// };
-
-// function addCategory(req, res) {
-//   knex('cat').insert({
-//     id: req.body.id,
-//     class: req.body.class,
-//     subclass: req.body.subclass,
-//     cat: req.body.cat,
-//     subcat: req.body.subcat
-//   })
-//   .then(() => {
-//     select()
-//     .from('cat')
-//     .then( cats => res.send( cats.row ));
-//   })
-// };
-
-// function updateCategory(req, res) {
-//   knex('cat').where('id', req.params.id)
-//   .update({
-//     id: req.body.id,
-//     class: req.body.class,
-//     subclass: req.body.subclass,
-//     cat: req.body.cat,
-//     subcat: req.body.subcat
-//   })
-//   .then(() => {
-//     select()
-//     .from('cat')
-//     .then( cats => res.send( cats.row ));
-//   });
-// };
-
-// function deleteCategory(req, res) {
-//   knex('cat').where('id', req.params.id)
-//   .del()
-//   .then(() => {
-//     select()
-//     .from('cat')
-//     .then( cats => res.send( cats.row ));
-//   });
-// };

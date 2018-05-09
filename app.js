@@ -8,11 +8,8 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var cors = require('cors');
 var bookshelf = require('bookshelf');
+var db = require('./db');
 
-// knex config
-const env = 'development';
-const config = require('./knexfile')[env];
-const knex = require('knex')(config);
 
 // require routes
 var index = require('./routes/index');
@@ -39,7 +36,7 @@ app.use('/public/stylesheets', express.static(path.join(__dirname, 'public/style
 // use routes
 app.use('/', index);
 
-// testing knex connection
+// testing knex connection --> it works!
 // knex.select().table('cat')
 //   .then (rows => {
 //     console.log(rows[2]);

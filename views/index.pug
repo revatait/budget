@@ -3,3 +3,9 @@ extends layout
 block content
   h2 #{title}
   p Welcome, we're here.
+  ul
+    each cat in cats
+      li
+        span #{cat.id}
+        span #{cat.cat}
+        span #{cat.subcat}
